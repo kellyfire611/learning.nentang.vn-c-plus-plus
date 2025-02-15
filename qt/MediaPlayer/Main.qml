@@ -12,7 +12,7 @@ ApplicationWindow {
 
     // Thêm property điều khiển
     property bool isPlaylistVisible: true
-    property string currentLanguage: "vi" // Mặc định là tiếng Việt
+    property string currentLanguage: "vi_VN" // Mặc định là tiếng Việt
 
     // Model
     ListModel {
@@ -58,7 +58,7 @@ ApplicationWindow {
         source: "assets/img/title.png"
         Text {
             id: headerTitleText
-            text: qsTr("Media Player")
+            text: qsTr("Trình chơi Đa phương tiện")
             anchors.centerIn: parent
             color: "white"
             font.pixelSize: 46
@@ -81,14 +81,18 @@ ApplicationWindow {
                 ToolButton {
                     id: vietnamButton
                     checkable: true
-                    checked: true  // Mặc định chọn tiếng Việt
+                    checked: currentLanguage === "vi_VN" ? true : false
                     ButtonGroup.group: languageGroup
                     icon.source: "assets/img/vietnam.png"
                     icon.width: 40
                     icon.height: 40
                     width: 60
                     height: 60
-                    onClicked: currentLanguage = "vi"
+                    onClicked: {
+                        currentLanguage = "vi_VN";
+                        languageManager.setCurrentLanguage(currentLanguage);
+                        Qt.uiLanguage = currentLanguage;
+                    }
 
                     background: Rectangle {
                         radius: 8
@@ -101,13 +105,18 @@ ApplicationWindow {
                 ToolButton {
                     id: usaButton
                     checkable: true
+                    checked: currentLanguage === "en_US" ? true : false
                     ButtonGroup.group: languageGroup
                     icon.source: "assets/img/united-states.png"
                     icon.width: 40
                     icon.height: 40
                     width: 60
                     height: 60
-                    onClicked: currentLanguage = "en"
+                    onClicked: {
+                        currentLanguage = "en_US";
+                        languageManager.setCurrentLanguage(currentLanguage);
+                        Qt.uiLanguage = currentLanguage;
+                    }
 
                     background: Rectangle {
                         radius: 8
@@ -149,7 +158,7 @@ ApplicationWindow {
 
                 Text {
                     id: playlistText
-                    text: qsTr("Playlist")
+                    text: qsTr("Danh sách bài hát")
                     color: "white"
                     font.pixelSize: 46
                 }
@@ -164,11 +173,15 @@ ApplicationWindow {
         anchors.bottom: parent.bottom
         source: "assets/img/playlist.png"
         opacity: 0.2
+        width: isPlaylistVisible ? 675 : 0 // Thay đổi width theo trạng thái
+        Behavior on width { NumberAnimation { duration: 300 } }
     }
 
     // ListView
     ListView {
         id: mediaPlaylist
+        width: isPlaylistVisible ? 675 : 0 // Đồng bộ width với background
+        Behavior on width { NumberAnimation { duration: 300 } }
         anchors.fill: playList_bg
         model: appModel
         clip: true
@@ -234,7 +247,7 @@ ApplicationWindow {
         id: audioTitle
         anchors.top: headerItem.bottom
         anchors.topMargin: 20
-        anchors.left: mediaPlaylist.right
+        anchors.left: isPlaylistVisible ? mediaPlaylist.right : parent.left // Điều chỉnh anchor
         anchors.leftMargin: 20
         text: "Phố không mùa"
         color: "white"
@@ -247,7 +260,7 @@ ApplicationWindow {
     Text {
         id: audioSinger
         anchors.top: audioTitle.bottom
-        anchors.left: mediaPlaylist.right
+        anchors.left: isPlaylistVisible ? mediaPlaylist.right : parent.left // Điều chỉnh anchor
         anchors.leftMargin: 20
         text: "Bùi Anh Tuấn"
         color: "white"
@@ -310,7 +323,7 @@ ApplicationWindow {
 
     PathView {
         id: album_art_view
-        anchors.left: mediaPlaylist.right
+        anchors.left: isPlaylistVisible ? mediaPlaylist.right : parent.left // Điều chỉnh anchor
         anchors.leftMargin: 50
         anchors.top: headerItem.bottom
         anchors.topMargin: 300
@@ -350,7 +363,7 @@ ApplicationWindow {
         id: currentTime
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 250
-        anchors.left: mediaPlaylist.right
+        anchors.left: isPlaylistVisible ? mediaPlaylist.right : parent.left // Điều chỉnh anchor
         anchors.leftMargin: 120
         text: getTime(player.position)
         color: "white"

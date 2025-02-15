@@ -5,7 +5,9 @@ project(MediaPlayer VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
 
+# qt_standard_project_setup(REQUIRES 6.5 I18N_TRANSLATED_LANGUAGES en_US)
 qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(appMediaPlayer
@@ -65,7 +67,20 @@ qt_add_qml_module(appMediaPlayer
     # assets/musics/Chuyen-Cua-Mua-Dong-Ha-Anh-Tuan.mp3
     # assets/musics/Hongkong1-Official-Version-Nguyen-Trong-Tai-San-Ji-Double-X.mp3
     # assets/musics/Pho-Khong-Mua-Duong-Truong-Giang-ft-Bui-Anh-Tuan.mp3
+
+    # Files đa ngôn ngữ
+    translations/lang_en_US.qm
+    translations/lang_vi_VN.qm
+    SOURCES LanguageManager.h LanguageManager.cpp
 )
+
+# Cấu hình dịch
+# qt_add_translations(appMediaPlayer
+#     TS_FILE_BASE qml
+#     TS_FILE_DIR i18n
+#     RESOURCE_PREFIX qt/qml/appMediaPlayer/i18n
+#     LRELEASE_OPTIONS -idbased
+# )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
