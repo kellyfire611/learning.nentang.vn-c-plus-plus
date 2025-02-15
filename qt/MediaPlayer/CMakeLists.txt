@@ -7,7 +7,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
 
-# qt_standard_project_setup(REQUIRES 6.5 I18N_TRANSLATED_LANGUAGES en_US)
+# Thêm đường dẫn đến vcpkg
+set(CMAKE_PREFIX_PATH "F:/dao-tao/ngon-ngu-lap-trinh/research/libs/vcpkg/installed/x64-windows")
+
+# Tìm gói TagLib
+find_package(Taglib REQUIRED)
+
+
 qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(appMediaPlayer
@@ -71,7 +77,10 @@ qt_add_qml_module(appMediaPlayer
     # Files đa ngôn ngữ
     translations/lang_en_US.qm
     translations/lang_vi_VN.qm
+
     SOURCES LanguageManager.h LanguageManager.cpp
+    SOURCES SongModel.h SongModel.cpp
+    SOURCES TagLibReader.h TagLibReader.cpp
 )
 
 # Cấu hình dịch
@@ -103,3 +112,6 @@ install(TARGETS appMediaPlayer
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+# Liên kết với TagLib
+target_link_libraries(appMediaPlayer PRIVATE TagLib::tag TagLib::tag_c)

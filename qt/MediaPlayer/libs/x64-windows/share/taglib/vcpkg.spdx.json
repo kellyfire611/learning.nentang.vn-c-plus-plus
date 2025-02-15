@@ -1,0 +1,110 @@
+{
+  "$schema": "https://raw.githubusercontent.com/spdx/spdx-spec/v2.2.1/schemas/spdx-schema.json",
+  "spdxVersion": "SPDX-2.2",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "documentNamespace": "https://spdx.org/spdxdocs/taglib-x64-windows-2.0.2-bfd987b1-3998-494c-bad9-6fbe2cdf4296",
+  "name": "taglib:x64-windows@2.0.2 19adc0663790928a50e04a72bfd90680d381c07f723240fc620efbcdf510a439",
+  "creationInfo": {
+    "creators": [
+      "Tool: vcpkg-2025-02-11-bec4296bf5289dc9ce83b4f5095943e44162f9c2"
+    ],
+    "created": "2025-02-15T18:35:45Z"
+  },
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "GENERATES",
+      "relatedSpdxElement": "SPDXRef-binary"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-0"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-1"
+    },
+    {
+      "spdxElementId": "SPDXRef-binary",
+      "relationshipType": "GENERATED_FROM",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-0",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-1",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    }
+  ],
+  "packages": [
+    {
+      "name": "taglib",
+      "SPDXID": "SPDXRef-port",
+      "versionInfo": "2.0.2",
+      "downloadLocation": "git+https://github.com/Microsoft/vcpkg#ports/taglib",
+      "homepage": "https://taglib.org/",
+      "licenseConcluded": "LGPL-2.1-only OR MPL-1.1",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "description": "TagLib Audio Meta-Data Library",
+      "comment": "This is the port (recipe) consumed by vcpkg."
+    },
+    {
+      "name": "taglib:x64-windows",
+      "SPDXID": "SPDXRef-binary",
+      "versionInfo": "19adc0663790928a50e04a72bfd90680d381c07f723240fc620efbcdf510a439",
+      "downloadLocation": "NONE",
+      "licenseConcluded": "LGPL-2.1-only OR MPL-1.1",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "comment": "This is a binary package built by vcpkg."
+    },
+    {
+      "SPDXID": "SPDXRef-resource-0",
+      "name": "taglib/taglib",
+      "downloadLocation": "git+https://github.com/taglib/taglib@v2.0.2",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "79f333dbe8ed44076010e33803e3418410516df4b70203962bbefea81ce0a6989a54a9791022488e64f1876573580cbe93920da4b2a7277d6a3f48c946e518fc"
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "fileName": "./F:/dao-tao/ngon-ngu-lap-trinh/research/libs/vcpkg/ports/taglib/portfile.cmake",
+      "SPDXID": "SPDXRef-file-0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "ad7fd6e46726d048f5d601f0f9de4c43579afb68096f370824983d9cdd52ab6b"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./F:/dao-tao/ngon-ngu-lap-trinh/research/libs/vcpkg/ports/taglib/vcpkg.json",
+      "SPDXID": "SPDXRef-file-1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "2bf61ba78998c069ce240b592c46775399b85fcbc7986e9a85e732574117f6cb"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    }
+  ]
+}

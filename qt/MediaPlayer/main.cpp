@@ -5,6 +5,7 @@
 #include <QLocale>
 #include <QQmlContext>
 #include "LanguageManager.h"
+#include "songmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -26,6 +27,9 @@ int main(int argc, char *argv[])
     // Đưa Translator vào QML
     engine.rootContext()->setContextProperty("currentLanguage", locale);
     engine.rootContext()->setContextProperty("languageManager", &languageManager);
+
+    // Đăng ký SongModel với QML
+    qmlRegisterType<SongModel>("MediaPlayer", 1, 0, "SongModel");
 
     QObject::connect(
         &engine,
