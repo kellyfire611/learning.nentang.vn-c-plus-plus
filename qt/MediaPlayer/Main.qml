@@ -3,12 +3,16 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtMultimedia
 
-Window {
+ApplicationWindow {
     width: 1920
     height: 1080
     visible: true
     // visibility: "FullScreen"
     title: qsTr("Trình chơi Đa phương tiện")
+
+    // Thêm property điều khiển
+    property bool isPlaylistVisible: true
+    property string currentLanguage: "vi" // Mặc định là tiếng Việt
 
     // Model
     ListModel {
@@ -58,6 +62,98 @@ Window {
             anchors.centerIn: parent
             color: "white"
             font.pixelSize: 46
+        }
+
+        // Thêm nút đổi ngôn ngữ trong header
+        RowLayout {
+            id: toggleTranslatorLayout
+            anchors {
+                right: headerItem.right
+                verticalCenter: headerItem.verticalCenter
+                margins: 20
+            }
+            spacing: 6
+            RowLayout {
+                spacing: 10
+
+                ButtonGroup { id: languageGroup }
+
+                ToolButton {
+                    id: vietnamButton
+                    checkable: true
+                    checked: true  // Mặc định chọn tiếng Việt
+                    ButtonGroup.group: languageGroup
+                    icon.source: "assets/img/vietnam.png"
+                    icon.width: 40
+                    icon.height: 40
+                    width: 60
+                    height: 60
+                    onClicked: currentLanguage = "vi"
+
+                    background: Rectangle {
+                        radius: 8
+                        color: "transparent"
+                        border.color: vietnamButton.checked ? "white" : "transparent"
+                        border.width: 3
+                    }
+                }
+
+                ToolButton {
+                    id: usaButton
+                    checkable: true
+                    ButtonGroup.group: languageGroup
+                    icon.source: "assets/img/united-states.png"
+                    icon.width: 40
+                    icon.height: 40
+                    width: 60
+                    height: 60
+                    onClicked: currentLanguage = "en"
+
+                    background: Rectangle {
+                        radius: 8
+                        color: "transparent"
+                        border.color: usaButton.checked ? "white" : "transparent"
+                        border.width: 3
+                    }
+                }
+            }
+        }
+
+        // Thêm nút toggle playlist trong header
+        RowLayout {
+            id: togglePlayListLayout
+            anchors {
+                left: headerItem.left
+                verticalCenter: headerItem.verticalCenter
+                margins: 20
+            }
+            spacing: 6
+            RowLayout {
+                spacing: 5
+
+                ToolButton {
+                    id: togglePlaylistButton
+                    icon.source: isPlaylistVisible ? "assets/img/bars-solid.png" : "assets/img/angle-left-solid.png"
+                    icon.width: 40
+                    icon.height: 40
+                    onClicked: {
+                        isPlaylistVisible = !isPlaylistVisible
+                    }
+                    background: Rectangle {
+                        color: "transparent"
+                        radius: 5
+                        border.color: togglePlaylistButton.hovered ? "white" : "transparent"
+                        border.width: 2
+                    }
+                }
+
+                Text {
+                    id: playlistText
+                    text: qsTr("Playlist")
+                    color: "white"
+                    font.pixelSize: 46
+                }
+            }
         }
     }
 
@@ -357,6 +453,8 @@ Window {
         icon_default: player.playbackState == MediaPlayer.PlayingState ?  "assets/img/pause.png" : "assets/img/play.png"
         icon_pressed: player.playbackState != MediaPlayer.PlayingState ?  "assets/img/hold-pause.png" : "assets/img/hold-play.png"
         icon_released: player.playbackState == MediaPlayer.PlayingState ?   "assets/img/play.png" : "assets/img/pause.png"
+        btnWidth: 120
+        btnHeight: 120
         onClicked: {
             if(player.playbackState == MediaPlayer.PlayingState){
                 player.pause()

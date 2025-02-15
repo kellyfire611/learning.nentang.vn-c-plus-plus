@@ -16,7 +16,7 @@ qt_add_qml_module(appMediaPlayer
     URI MediaPlayer
     VERSION 1.0
     QML_FILES
-        Main.qml SwitchButton.qml
+        Main.qml SwitchButton.qml ButtonControl.qml
 
     RESOURCES
     assets/icons/android-chrome-192x192.png
@@ -56,12 +56,15 @@ qt_add_qml_module(appMediaPlayer
     assets/img/shuffle-1.png
     assets/img/title.png
     assets/img/USB-Music.png
+    assets/img/angle-left-solid.png
+    assets/img/bars-solid.png
+    assets/img/vietnam.png
+    assets/img/united-states.png
 
     # Files Âm nhạc
-    assets/musics/Chuyen-Cua-Mua-Dong-Ha-Anh-Tuan.mp3
-    assets/musics/Hongkong1-Official-Version-Nguyen-Trong-Tai-San-Ji-Double-X.mp3
-    assets/musics/Pho-Khong-Mua-Duong-Truong-Giang-ft-Bui-Anh-Tuan.mp3
-    QML_FILES ButtonControl.qml
+    # assets/musics/Chuyen-Cua-Mua-Dong-Ha-Anh-Tuan.mp3
+    # assets/musics/Hongkong1-Official-Version-Nguyen-Trong-Tai-San-Ji-Double-X.mp3
+    # assets/musics/Pho-Khong-Mua-Duong-Truong-Giang-ft-Bui-Anh-Tuan.mp3
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
