@@ -4,7 +4,7 @@ project(MediaPlayer VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS Quick Multimedia REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
 
 # Thêm đường dẫn đến vcpkg
@@ -12,7 +12,6 @@ set(CMAKE_PREFIX_PATH "F:/dao-tao/ngon-ngu-lap-trinh/research/libs/vcpkg/install
 
 # Tìm gói TagLib
 find_package(Taglib REQUIRED)
-
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -68,11 +67,13 @@ qt_add_qml_module(appMediaPlayer
     assets/img/bars-solid.png
     assets/img/vietnam.png
     assets/img/united-states.png
+    assets/img/no_album.jpg
 
     # Files Âm nhạc
-    # assets/musics/Chuyen-Cua-Mua-Dong-Ha-Anh-Tuan.mp3
-    # assets/musics/Hongkong1-Official-Version-Nguyen-Trong-Tai-San-Ji-Double-X.mp3
-    # assets/musics/Pho-Khong-Mua-Duong-Truong-Giang-ft-Bui-Anh-Tuan.mp3
+    assets/musics/Chuyen-Cua-Mua-Dong-Ha-Anh-Tuan.mp3
+    assets/musics/Hongkong1-Official-Version-Nguyen-Trong-Tai-San-Ji-Double-X.mp3
+    assets/musics/Pho-Khong-Mua-Duong-Truong-Giang-ft-Bui-Anh-Tuan.mp3
+    assets/musics/Tuyet-Yeu-Thuong-Remix.mp3
 
     # Files đa ngôn ngữ
     translations/lang_en_US.qm
@@ -81,6 +82,7 @@ qt_add_qml_module(appMediaPlayer
     SOURCES LanguageManager.h LanguageManager.cpp
     SOURCES SongModel.h SongModel.cpp
     SOURCES TagLibReader.h TagLibReader.cpp
+    QML_FILES SongDelegate.qml
 )
 
 # Cấu hình dịch
@@ -104,6 +106,7 @@ set_target_properties(appMediaPlayer PROPERTIES
 
 target_link_libraries(appMediaPlayer
     PRIVATE Qt6::Quick
+            Qt${QT_VERSION_MAJOR}::Multimedia
 )
 
 include(GNUInstallDirs)

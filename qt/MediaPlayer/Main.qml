@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtMultimedia
+import MediaPlayer 1.0
 
 ApplicationWindow {
     width: 1920
@@ -14,12 +15,22 @@ ApplicationWindow {
     property bool isPlaylistVisible: true
     property string currentLanguage: "vi_VN" // Mặc định là tiếng Việt
 
+    // Events
+    Component.onCompleted: {
+        songModel.loadResourceSongs()
+    }
+
+    Connections {
+        target: songModel
+        onCurrentSongIndexChanged: {
+            mediaPlaylist.currentIndex = songModel.currentSongIndex;
+            album_art_view.currentIndex = songModel.currentSongIndex;
+        }
+    }
+
     // Model
-    ListModel {
-        id: appModel
-        ListElement { title: "Phố Không Mùa"; singer: "Bùi Anh Tuấn" ; icon: "assets/img/Bui-Anh-Tuan.png"; source: "qrc:/Music/Pho-Khong-Mua-Duong-Truong-Giang-ft-Bui-Anh-Tuan.mp3" }
-        ListElement { title: "Chuyện Của Mùa Đông"; singer: "Hà Anh Tuấn" ; icon: "assets/img/Ha-Anh-Tuan.png"; source: "qrc:/Music/Chuyen-Cua-Mua-Dong-Ha-Anh-Tuan.mp3"}
-        ListElement { title: "Hongkong1"; singer: "Nguyễn Trọng Tài" ; icon: "assets/img/Hongkong1.png"; source: "qrc:/Music/Hongkong1-Official-Version-Nguyen-Trong-Tai-San-Ji-Double-X.mp3" }
+    SongModel {
+        id: songModel
     }
 
     // Media player
@@ -45,14 +56,14 @@ ApplicationWindow {
         source: mediaPlaylist.currentItem.myData.source
     }
 
-    //Backgroud
+    // Backgroud
     Image {
         id: backgroud
         anchors.fill: parent
         source: "assets/img/background.png"
     }
 
-    //Header
+    // Header
     Image {
         id: headerItem
         source: "assets/img/title.png"
@@ -166,7 +177,7 @@ ApplicationWindow {
         }
     }
 
-    //Playlist
+    // Playlist
     Image {
         id: playList_bg
         anchors.top: headerItem.bottom
@@ -183,10 +194,10 @@ ApplicationWindow {
         width: isPlaylistVisible ? 675 : 0 // Đồng bộ width với background
         Behavior on width { NumberAnimation { duration: 300 } }
         anchors.fill: playList_bg
-        model: appModel
+        model: songModel
         clip: true
         spacing: 2
-        currentIndex: 0
+        currentIndex: songModel.currentIndex
         delegate: MouseArea {
             property variant myData: model
             implicitWidth: playlistItem.width
@@ -208,10 +219,9 @@ ApplicationWindow {
                 font.pixelSize: 32
             }
             onClicked: {
-                mediaPlaylist.currentIndex = indexOfThisDelegate
-                album_art_view.currentIndex = indexOfThisDelegate
+                songModel.playSong(index);
+                album_art_view.currentIndex = index; // Cập nhật PathView
             }
-
             onPressed: {
                 playlistItem.source = "assets/img/hold.png"
             }
@@ -235,38 +245,11 @@ ApplicationWindow {
             anchors.bottom: mediaPlaylist.bottom
         }
         onCurrentItemChanged: {
-            player.source = mediaPlaylist.currentItem.myData.source;
-            player.play();
-            audioTitle.text = mediaPlaylist.currentItem.myData.title
-            audioSinger.text = mediaPlaylist.currentItem.myData.singer
+            album_art_view.currentIndex = mediaPlaylist.currentIndex;
         }
     }
 
-    //Media Info
-    Text {
-        id: audioTitle
-        anchors.top: headerItem.bottom
-        anchors.topMargin: 20
-        anchors.left: isPlaylistVisible ? mediaPlaylist.right : parent.left // Điều chỉnh anchor
-        anchors.leftMargin: 20
-        text: "Phố không mùa"
-        color: "white"
-        font.pixelSize: 36
-        onTextChanged: {
-            textChangeAni.targets = [audioTitle,audioSinger]
-            textChangeAni.restart()
-        }
-    }
-    Text {
-        id: audioSinger
-        anchors.top: audioTitle.bottom
-        anchors.left: isPlaylistVisible ? mediaPlaylist.right : parent.left // Điều chỉnh anchor
-        anchors.leftMargin: 20
-        text: "Bùi Anh Tuấn"
-        color: "white"
-        font.pixelSize: 32
-    }
-
+    // Metadata Media Info
     NumberAnimation {
         id: textChangeAni
         property: "opacity"
@@ -275,13 +258,39 @@ ApplicationWindow {
         duration: 400
         easing.type: Easing.InOutQuad
     }
+    // Title
+    Text {
+        id: audioTitle
+        anchors.top: headerItem.bottom
+        anchors.topMargin: 20
+        anchors.left: isPlaylistVisible ? mediaPlaylist.right : parent.left // Điều chỉnh anchor
+        anchors.leftMargin: 20
+        text: songModel.currentTitle
+        color: "white"
+        font.pixelSize: 36
+        onTextChanged: {
+            textChangeAni.targets = [audioTitle,audioSinger]
+            textChangeAni.restart()
+        }
+    }
+    // Singer
+    Text {
+        id: audioSinger
+        anchors.top: audioTitle.bottom
+        anchors.left: isPlaylistVisible ? mediaPlaylist.right : parent.left // Điều chỉnh anchor
+        anchors.leftMargin: 20
+        text: songModel.currentArtist
+        color: "white"
+        font.pixelSize: 32
+    }
+    // List count
     Text {
         id: audioCount
         anchors.top: headerItem.bottom
         anchors.topMargin: 20
         anchors.right: parent.right
         anchors.rightMargin: 20
-        text: appModel.count
+        text: songModel.songCount
         color: "white"
         font.pixelSize: 36
     }
@@ -293,45 +302,16 @@ ApplicationWindow {
         source: "assets/img/music.png"
     }
 
-    Component {
-        id: appDelegate
-
-        Item {
-            property int indexArt: index
-
-            width: 400; height: 400
-            scale: PathView.iconScale
-
-            Image {
-                id: myIcon
-                width: parent.width
-                height: parent.height
-                y: 20; anchors.horizontalCenter: parent.horizontalCenter
-                source: icon
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    album_art_view.currentIndex = indexArt
-                    mediaPlaylist.currentIndex = indexArt
-
-                }
-            }
-        }
-    }
-
     PathView {
         id: album_art_view
-        anchors.left: isPlaylistVisible ? mediaPlaylist.right : parent.left // Điều chỉnh anchor
-        anchors.leftMargin: 50
+        anchors.left: mediaPlaylist.right
+        anchors.leftMargin: 100
         anchors.top: headerItem.bottom
         anchors.topMargin: 300
         preferredHighlightBegin: 0.5
         preferredHighlightEnd: 0.5
         focus: true
-        model: appModel
-        delegate: appDelegate
+        model: songModel
 
         path: Path {
             startX: 10
@@ -342,33 +322,60 @@ ApplicationWindow {
             PathLine { x: 1100; y: 50 }
             PathAttribute { name: "iconScale"; value: 0.5 }
         }
+        delegate: Item {
+            property int indexArt: index
+
+            width: 400; height: 400
+            scale: PathView.iconScale
+
+            Rectangle {
+               anchors.fill: parent
+               color: "transparent" // Màu đỏ để kiểm tra hiển thị
+               border.color: "red"
+               border.width: 2
+            }
+
+            Image {
+                id: myIcon
+                width: parent.width
+                height: parent.height
+                y: 20; anchors.horizontalCenter: parent.horizontalCenter
+                source: albumArt
+                Component.onCompleted: {
+                    console.log("Image source:", source)
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    album_art_view.currentIndex = index
+                    songModel.playSong(index)
+                }
+            }
+        }
         onCurrentIndexChanged: {
-//            album_art_view.currentIndex = indexOfThisDelegate
+            mediaPlaylist.currentIndex = album_art_view.currentIndex;
         }
     }
-    //Progress
-    function str_pad_left(string,pad,length) {
-        return (new Array(length+1).join(pad)+string).slice(-length);
-    }
 
-    function getTime(time){
-        time = time/1000
-        var minutes = Math.floor(time / 60);
-        var seconds = Math.floor(time - minutes * 60);
-
-        return str_pad_left(minutes,'0',2)+':'+str_pad_left(seconds,'0',2);
-    }
-
+    // Vị trí trong thời gian phát nhạc (realtime)
     Text {
         id: currentTime
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 250
         anchors.left: isPlaylistVisible ? mediaPlaylist.right : parent.left // Điều chỉnh anchor
         anchors.leftMargin: 120
-        text: getTime(player.position)
         color: "white"
         font.pixelSize: 24
+        text: formatTime(songModel.position)
+        function formatTime(ms) {
+            var seconds = Math.floor(ms/1000)
+            return Math.floor(seconds/60) + ":" + ("0" + (seconds%60)).slice(-2)
+        }
     }
+
+    // Thanh tiến trình phát nhạc
     Slider{
         id: progressBar
         width: 816
@@ -377,8 +384,8 @@ ApplicationWindow {
         anchors.left: currentTime.right
         anchors.leftMargin: 20
         from: 0
-        to: 1.0
-        value: player.position / player.duration
+        to: songModel.duration
+        value: songModel.position
         background: Rectangle {
             x: progressBar.leftPadding
             y: progressBar.topPadding + progressBar.availableHeight / 2 - height / 2
@@ -407,22 +414,28 @@ ApplicationWindow {
             }
         }
         onMoved: {
-            if (player.seekable){
-                player.setPosition(value * player.duration)
-            }
+            songModel.setPosition(value)
         }
     }
+
+    // Tổng thời gian bài hát
     Text {
         id: totalTime
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 250
         anchors.left: progressBar.right
         anchors.leftMargin: 20
-        text: getTime(player.duration)
+        text: formatTime(songModel.duration)
         color: "white"
         font.pixelSize: 24
+        function formatTime(ms) {
+            var seconds = Math.floor(ms/1000)
+            return Math.floor(seconds/60) + ":" + ("0" + (seconds%60)).slice(-2)
+        }
     }
-    //Media control
+
+    // Media controls
+    // Nút trộn bài hát
     SwitchButton {
         id: shuffer
         anchors.bottom: parent.bottom
@@ -433,13 +446,11 @@ ApplicationWindow {
         icon_on: "assets/img/shuffle-1.png"
         status: player.shuffer
         onClicked: {
-            if (!player.shuffer) {
-                player.shuffer = true
-            } else {
-                player.shuffer = false
-            }
+            songModel.toggleShuffle()
         }
     }
+
+    // Nút previous
     ButtonControl {
         id: prev
         anchors.bottom: parent.bottom
@@ -450,39 +461,30 @@ ApplicationWindow {
         icon_pressed: "assets/img/hold-prev.png"
         icon_released: "assets/img/prev.png"
         onClicked: {
-            if(mediaPlaylist.currentIndex > 0){
-                mediaPlaylist.currentIndex = (mediaPlaylist.currentIndex) - 1
-                album_art_view.currentIndex = (album_art_view.currentIndex) - 1
-                audioTitle.text = title
-                audioSinger.text = singer
-            }
-
+            songModel.previous()
+            album_art_view.currentIndex = mediaPlaylist.currentIndex = songModel.currentIndex;
         }
     }
+
+    // Nút play/pause
     ButtonControl {
         id: play
         anchors.verticalCenter: prev.verticalCenter
         anchors.left: prev.right
-        icon_default: player.playbackState == MediaPlayer.PlayingState ?  "assets/img/pause.png" : "assets/img/play.png"
-        icon_pressed: player.playbackState != MediaPlayer.PlayingState ?  "assets/img/hold-pause.png" : "assets/img/hold-play.png"
-        icon_released: player.playbackState == MediaPlayer.PlayingState ?   "assets/img/play.png" : "assets/img/pause.png"
+        // icon_default: player.playbackState == MediaPlayer.PlayingState ?  "assets/img/pause.png" : "assets/img/play.png"
+        // icon_pressed: player.playbackState != MediaPlayer.PlayingState ?  "assets/img/hold-pause.png" : "assets/img/hold-play.png"
+        // icon_released: player.playbackState == MediaPlayer.PlayingState ?   "assets/img/play.png" : "assets/img/pause.png"
+        icon_default: songModel.isPlaying ? "assets/img/pause.png" : "assets/img/play.png"
+        icon_pressed: songModel.isPlaying ? "assets/img/hold-pause.png" : "assets/img/hold-play.png"
+        icon_released: songModel.isPlaying ? "assets/img/play.png" : "assets/img/pause.png"
         btnWidth: 120
         btnHeight: 120
         onClicked: {
-            if(player.playbackState == MediaPlayer.PlayingState){
-                player.pause()
-            }
-            else{
-                player.play()
-            }
-        }
-        Connections {
-            target: player
-            onPlaybackStateChanged:{
-                play.source = player.state == MediaPlayer.PlayingState ?  "assets/img/pause.png" : "assets/img/play.png"
-            }
+            songModel.playPause()
         }
     }
+
+    // Nút next
     ButtonControl {
         id: next
         anchors.bottom: parent.bottom
@@ -492,17 +494,12 @@ ApplicationWindow {
         icon_pressed: "assets/img/hold-next.png"
         icon_released: "assets/img/next.png"
         onClicked: {
-            if (player.shuffer) {
-                var newIndex = Math.floor(Math.random() * mediaPlaylist.count)
-                mediaPlaylist.currentIndex = newIndex
-            }
-            else if(mediaPlaylist.currentIndex < mediaPlaylist.count - 1 && !player.shuffer) {
-                mediaPlaylist.currentIndex = (mediaPlaylist.currentIndex) + 1
-                album_art_view.currentIndex = (album_art_view.currentIndex) + 1
-            }
+            songModel.next()
+            album_art_view.currentIndex = mediaPlaylist.currentIndex = songModel.currentIndex;
         }
     }
 
+    // Nút repeat
     SwitchButton {
         id: repeater
         anchors.bottom: parent.bottom
@@ -512,9 +509,7 @@ ApplicationWindow {
         icon_off: "assets/img/repeat.png"
         property bool repeat: true
         onClicked: {
-            if(repeat){
-                player.loops = 1
-            }
+            songModel.toggleRepeat()
         }
     }
 }
