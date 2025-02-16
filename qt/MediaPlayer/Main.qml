@@ -9,6 +9,11 @@ ApplicationWindow {
     height: 1080
     visible: true
     // visibility: "FullScreen"
+    // Khóa kích thước cửa sổ
+    minimumWidth: 1920
+    minimumHeight: 1080
+    maximumWidth: 1920
+    maximumHeight: 1080
     title: qsTr("Trình chơi Đa phương tiện")
 
     // Thêm property điều khiển
@@ -327,12 +332,13 @@ ApplicationWindow {
 
             width: 400; height: 400
             scale: PathView.iconScale
+            z: PathView.iconScale // Item có iconScale lớn sẽ nổi lên trên
 
             Rectangle {
                anchors.fill: parent
-               color: "transparent" // Màu đỏ để kiểm tra hiển thị
-               border.color: "red"
-               border.width: 2
+               color: "transparent"
+               border.color: PathView.iconScale >= 1.0 ? "white" : "black" // Viền trắng nếu là ảnh lớn nhất
+               border.width: PathView.iconScale >= 1.0 ? 2 : 4
             }
 
             Image {

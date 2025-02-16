@@ -66,6 +66,8 @@ TagLibReader::SongMetadata TagLibReader::readMetadata(const QString &filePath) {
                 image.save(&buffer, "PNG");
                 metadata.albumArt = "data:image/png;base64," + byteArray.toBase64();
             }
+        } else {
+            metadata.albumArt = "assets/img/no_album.jpg";
         }
     }
 
