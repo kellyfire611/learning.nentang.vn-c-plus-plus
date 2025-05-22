@@ -88,9 +88,22 @@ Drawer {
         }
     }
 
+    onOpened: {
+        console.log("Drawer is now opened")
+    }
+
+    onClosed: {
+        console.log("Drawer is now closed")
+    }
+
+    onPositionChanged: {
+        console.log("Drawer position changed to:", position)
+    }
+
     Component.onCompleted: {
         console.log("PlaylistView.qml loaded")
         console.log("PlaylistModel row count:", playlistModel ? playlistModel.rowCount() : "undefined")
         console.log("Current index:", player ? player.m_currentIndex : "undefined")
+        console.log("Initial opened state:", drawer.opened)
     }
 }

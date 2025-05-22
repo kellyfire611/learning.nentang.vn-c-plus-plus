@@ -10,12 +10,16 @@ Item {
         id: headerItem
         width: parent.width
         height: 100
+        z: 10 // Đặt z cao hơn để tránh bị che bởi Drawer
         playlistButtonStatus: playlist.opened ? 1 : 0
         onClickPlaylistButton: {
+            console.log("ClickPlaylistButton, current opened state:", playlist.opened)
             if (!playlist.opened) {
                 playlist.open()
+                console.log("Drawer opened")
             } else {
                 playlist.close()
+                console.log("Drawer closed")
             }
         }
     }
@@ -23,9 +27,11 @@ Item {
     // Playlist
     PlaylistView {
         id: playlist
-        y: 100
-        width: 749
+        y: 174
+        width: 640
         height: parent.height - headerItem.height
+        topMargin: headerItem.height // Đảm bảo Drawer không che khuất header
+        z: 0 // Đảm bảo z thấp hơn AppHeader
     }
 
     // Media Info

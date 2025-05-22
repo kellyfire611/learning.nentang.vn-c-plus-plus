@@ -15,7 +15,6 @@ int main(int argc, char *argv[])
 
     qDebug() << "Khoi tao chuong trinh";
     ApplicationsModel appsModel;
-    PlaylistModel playlistModel;
     Player player;
     ClimateModel climateModel;
 
@@ -23,8 +22,8 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("appsModel", &appsModel);
-    engine.rootContext()->setContextProperty("playlistModel", &playlistModel);
     engine.rootContext()->setContextProperty("player", &player);
+    engine.rootContext()->setContextProperty("playlistModel", player.m_playlistModel);
     engine.rootContext()->setContextProperty("mediaPlayer", player.mediaPlayer());
     engine.rootContext()->setContextProperty("climateModel", &climateModel);
 

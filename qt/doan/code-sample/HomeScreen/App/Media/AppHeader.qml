@@ -18,7 +18,9 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         icon_off: "qrc:/App/Media/Image/drawer.png"
         icon_on: "qrc:/App/Media/Image/back.png"
+        status: playlistButtonStatus // Được đồng bộ từ Media.qml
         onClicked: {
+            console.log("Playlist button clicked")
             clickPlaylistButton()
         }
     }

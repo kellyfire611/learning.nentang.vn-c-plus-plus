@@ -35,13 +35,13 @@ public:
     QMediaPlayer* mediaPlayer() const { return m_player; }
 
     int currentIndex() const { return m_currentIndex; }
-    void setCurrentIndex(int index);
+    Q_INVOKABLE void setCurrentIndex(int index);
 
     bool shuffle() const { return m_shuffle; }
-    void setShuffle(bool enabled);
+    Q_INVOKABLE void setShuffle(bool enabled);
 
     bool repeat() const { return m_repeat; }
-    void setRepeat(bool enabled);
+    Q_INVOKABLE void setRepeat(bool enabled);
 
     qint64 position() const { return m_player->position(); }
     qint64 duration() const { return m_player->duration(); }
