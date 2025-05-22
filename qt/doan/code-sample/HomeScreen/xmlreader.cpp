@@ -1,67 +1,60 @@
 #include "xmlreader.h"
+#include <QDebug>
 
 XmlReader::XmlReader(QString filePath, ApplicationsModel &model)
 {
-    ReadXmlFile(filePath);
-    PaserXml(model);
+    if (ReadXmlFile(filePath)) {
+        PaserXml(model);
+    } else {
+        qDebug() << "Failed to read XML file:" << filePath;
+    }
 }
 
 bool XmlReader::ReadXmlFile(QString filePath)
 {
-    // Load xml file as raw data
     QFile f(filePath);
-    if (!f.open(QIODevice::ReadOnly ))
-    {
-        // Error while loading file
+    if (!f.open(QIODevice::ReadOnly)) {
+        qDebug() << "Error opening file:" << filePath << f.errorString();
         return false;
     }
-    // Set data into the QDomDocument before processing
-    m_xmlDoc.setContent(&f);
+    if (!m_xmlDoc.setContent(&f)) {
+        qDebug() << "Error parsing XML content from file:" << filePath;
+        f.close();
+        return false;
+    }
     f.close();
     return true;
 }
 
 void XmlReader::PaserXml(ApplicationsModel &model)
 {
-    // Extract the root markup
-    QDomElement root=m_xmlDoc.documentElement();
+    QDomElement root = m_xmlDoc.documentElement();
+    QDomElement Component = root.firstChild().toElement();
 
-    // Get the first child of the root (Markup COMPONENT is expected)
-    QDomElement Component=root.firstChild().toElement();
-
-    // Loop while there is a child
-    while(!Component.isNull())
-    {
-        // Check if the child tag name is COMPONENT
-        if (Component.tagName()=="APP")
-        {
-
-            // Read and display the component ID
-            QString ID=Component.attribute("ID","No ID");
-
-            // Get the first child of the component
-            QDomElement Child=Component.firstChild().toElement();
+    while (!Component.isNull()) {
+        if (Component.tagName() == "APP") {
+            QString ID = Component.attribute("ID", "No ID");
+            QDomElement Child = Component.firstChild().toElement();
 
             QString title;
             QString url;
             QString iconPath;
 
-            // Read each child of the component node
-            while (!Child.isNull())
-            {
-                // Read Name and value
-                if (Child.tagName()=="TITLE") title = Child.firstChild().toText().data();
-                if (Child.tagName()=="URL") url = Child.firstChild().toText().data();
-                if (Child.tagName()=="ICON_PATH") iconPath = Child.firstChild().toText().data();
-
-                // Next child
+            while (!Child.isNull()) {
+                if (Child.tagName() == "TITLE") title = Child.firstChild().toText().data();
+                if (Child.tagName() == "URL") url = Child.firstChild().toText().data();
+                if (Child.tagName() == "ICON_PATH") iconPath = Child.firstChild().toText().data();
                 Child = Child.nextSibling().toElement();
             }
-            ApplicationItem item(title,url,iconPath);
-            model.addApplication(item);
-        }
 
-        // Next component
+            if (!title.isEmpty()) { // Chỉ thêm nếu title không rỗng
+                qDebug() << "Adding application:" << title << url << iconPath;
+                ApplicationItem item(title, url, iconPath);
+                model.addApplication(item);
+            } else {
+                qDebug() << "Skipping application with ID" << ID << "due to missing title";
+            }
+        }
         Component = Component.nextSibling().toElement();
     }
 }

@@ -187,5 +187,6 @@
         <file>App/Radio/Radio.qml</file>
         <file>App/Settings/Settings.qml</file>
         <file>App/Video/Video.qml</file>
+        <file>applications.xml</file>
     </qresource>
 </RCC>

@@ -29,6 +29,8 @@ class Player : public QObject
 public:
     explicit Player(QObject *parent = nullptr);
 
+    QMediaPlayer* mediaPlayer() const { return m_player; } // Getter cho QMediaPlayer
+
     int currentIndex() const { return m_currentIndex; }
     void setCurrentIndex(int index);
 
@@ -39,8 +41,8 @@ public:
     void setRepeat(bool enabled);
 
     void addToPlaylist(const QList<QUrl> &urls);
-    void playNext();
-    void playPrevious();
+    Q_INVOKABLE void playNext();
+    Q_INVOKABLE void playPrevious();
 
 public slots:
     void open();
@@ -60,6 +62,8 @@ signals:
     void m_currentIndexChanged();
     void shuffleChanged();
     void repeatChanged();
+    void durationChanged();
+    void positionChanged();
 
 private:
     void shufflePlaylist();

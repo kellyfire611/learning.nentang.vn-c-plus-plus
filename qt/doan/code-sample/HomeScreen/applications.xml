@@ -6,7 +6,7 @@
         </APP>
         <APP ID="002">
                 <TITLE>Video</TITLE>
-                <URL></URL>
+                <URL>qrc:/App/Video/Video.qml</URL>
                 <ICON_PATH>qrc:/Img/HomeScreen/btn_home_menu_climate</ICON_PATH>
         </APP>
         <APP ID="003">
@@ -16,17 +16,17 @@
         </APP>
         <APP ID="004">
                 <TITLE>Phone</TITLE>
-                <URL></URL>
+                <URL>qrc:/App/Phone/Phone.qml</URL>
                 <ICON_PATH>qrc:/Img/HomeScreen/btn_home_menu_phone</ICON_PATH>
         </APP>
         <APP ID="005">
                 <TITLE>Radio</TITLE>
-                <URL></URL>
+                <URL>qrc:/App/Radio/Radio.qml</URL>
                 <ICON_PATH>qrc:/Img/HomeScreen/btn_home_menu_radio</ICON_PATH>
         </APP>
         <APP ID="006">
                 <TITLE>Settings</TITLE>
-                <URL></URL>
+                <URL>qrc:/App/Settings/Settings.qml</URL>
                 <ICON_PATH>qrc:/Img/HomeScreen/btn_home_menu_settings</ICON_PATH>
         </APP>
 </APPLICATIONS>

@@ -9,22 +9,22 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
-    QQmlApplicationEngine engine;
 
     ApplicationsModel appsModel;
-    XmlReader xmlReader("applications.xml", appsModel);
-    engine.rootContext()->setContextProperty("appsModel", &appsModel);
-
+    PlaylistModel playlistModel;
     Player player;
-    engine.rootContext()->setContextProperty("playlistModel", player.m_playlistModel);
-    engine.rootContext()->setContextProperty("mediaPlayer", player.m_player);
-    engine.rootContext()->setContextProperty("player", &player);
+    ClimateModel climateModel;
 
-    ClimateModel climate;
-    engine.rootContext()->setContextProperty("climateModel", &climate);
+    XmlReader xmlReader(":/applications.xml", appsModel);
+
+    QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("appsModel", &appsModel);
+    engine.rootContext()->setContextProperty("playlistModel", &playlistModel);
+    engine.rootContext()->setContextProperty("player", &player);
+    engine.rootContext()->setContextProperty("mediaPlayer", player.mediaPlayer());
+    engine.rootContext()->setContextProperty("climateModel", &climateModel);
 
     const QUrl url(QStringLiteral("qrc:/Qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     // Notify signal to QML for reading data from D-Bus
-    emit climate.dataChanged();
+    emit climateModel.dataChanged();
 
     return app.exec();
 }

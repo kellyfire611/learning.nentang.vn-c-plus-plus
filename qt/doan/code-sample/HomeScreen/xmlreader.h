@@ -1,6 +1,7 @@
 #ifndef XMLREADER_H
 #define XMLREADER_H
 #include <QtXml>
+#include <QDomDocument>
 #include <QFile>
 #include "applicationsmodel.h"
 

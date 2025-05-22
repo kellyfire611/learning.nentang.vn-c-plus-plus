@@ -1,31 +1,7 @@
 #include "applicationsmodel.h"
 
-ApplicationItem::ApplicationItem(QString title, QString url, QString iconPath)
-{
-    m_title = title;
-    m_url = url;
-    m_iconPath = iconPath;
-}
-
-QString ApplicationItem::title() const
-{
-    return m_title;
-}
-
-QString ApplicationItem::url() const
-{
-    return m_url;
-}
-
-QString ApplicationItem::iconPath() const
-{
-    return m_iconPath;
-}
-
 ApplicationsModel::ApplicationsModel(QObject *parent)
-{
-    Q_UNUSED(parent)
-}
+    : QAbstractListModel(parent) {}
 
 int ApplicationsModel::rowCount(const QModelIndex &parent) const
 {
@@ -48,7 +24,7 @@ QVariant ApplicationsModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void ApplicationsModel::addApplication(ApplicationItem &item)
+void ApplicationsModel::addApplication(const ApplicationItem &item)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     m_data << item;
@@ -63,4 +39,3 @@ QHash<int, QByteArray> ApplicationsModel::roleNames() const
     roles[IconPathRole] = "iconPath";
     return roles;
 }
-

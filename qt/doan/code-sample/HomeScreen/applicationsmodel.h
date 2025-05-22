@@ -1,22 +1,8 @@
 #ifndef APPLICATIONSMODEL_H
 #define APPLICATIONSMODEL_H
+
 #include <QAbstractListModel>
-
-class ApplicationItem {
-public:
-    ApplicationItem(QString title, QString url, QString iconPath);
-
-    QString title() const;
-
-    QString url() const;
-
-    QString iconPath() const;
-
-private:
-    QString m_title;
-    QString m_url;
-    QString m_iconPath;
-};
+#include "applicationitem.h"
 
 class ApplicationsModel : public QAbstractListModel
 {
@@ -31,7 +17,7 @@ public:
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    void addApplication(ApplicationItem &item);
+    void addApplication(const ApplicationItem &item);
 
 protected:
     QHash<int, QByteArray> roleNames() const override;

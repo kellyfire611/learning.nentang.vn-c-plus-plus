@@ -30,6 +30,9 @@ Player::Player(QObject *parent) : QObject(parent)
         m_currentIndex = 0;
         m_player->setSource(m_playlist[m_currentIndex]);
     }
+
+    connect(m_player, &QMediaPlayer::durationChanged, this, &Player::durationChanged);
+    connect(m_player, &QMediaPlayer::positionChanged, this, &Player::positionChanged);
 }
 
 void Player::open()

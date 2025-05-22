@@ -125,15 +125,16 @@ Item {
 
         model: DelegateModel {
             id: visualModel
-            model: ListModel {
-                id: appsModel
-                ListElement { title: "Map"; iconPath: "qrc:/Img/HomeScreen/btn_home_menu_map"; url: "qrc:/App/Map/Map.qml" }
-                ListElement { title: "Video"; iconPath: "qrc:/Img/HomeScreen/btn_home_menu_climate"; url: "qrc:/App/Video/Video.qml" }
-                ListElement { title: "Media"; iconPath: "qrc:/Img/HomeScreen/btn_home_menu_media"; url: "qrc:/App/Media/Media.qml" }
-                ListElement { title: "Phone"; iconPath: "qrc:/Img/HomeScreen/btn_home_menu_phone"; url: "qrc:/App/Phone/Phone.qml" }
-                ListElement { title: "Radio"; iconPath: "qrc:/Img/HomeScreen/btn_home_menu_radio"; url: "qrc:/App/Radio/Radio.qml" }
-                ListElement { title: "Settings"; iconPath: "qrc:/Img/HomeScreen/btn_home_menu_settings"; url: "qrc:/App/Settings/Settings.qml" }
-            }
+            model: appsModel
+            //     ListModel {
+            //     id: appsModel
+            //     ListElement { title: "Map"; iconPath: "qrc:/Img/HomeScreen/btn_home_menu_map"; url: "qrc:/App/Map/Map.qml" }
+            //     ListElement { title: "Video"; iconPath: "qrc:/Img/HomeScreen/btn_home_menu_climate"; url: "qrc:/App/Video/Video.qml" }
+            //     ListElement { title: "Media"; iconPath: "qrc:/Img/HomeScreen/btn_home_menu_media"; url: "qrc:/App/Media/Media.qml" }
+            //     ListElement { title: "Phone"; iconPath: "qrc:/Img/HomeScreen/btn_home_menu_phone"; url: "qrc:/App/Phone/Phone.qml" }
+            //     ListElement { title: "Radio"; iconPath: "qrc:/Img/HomeScreen/btn_home_menu_radio"; url: "qrc:/App/Radio/Radio.qml" }
+            //     ListElement { title: "Settings"; iconPath: "qrc:/Img/HomeScreen/btn_home_menu_settings"; url: "qrc:/App/Settings/Settings.qml" }
+            // }
             delegate: DropArea {
                 id: delegateRoot
                 width: 224 //316

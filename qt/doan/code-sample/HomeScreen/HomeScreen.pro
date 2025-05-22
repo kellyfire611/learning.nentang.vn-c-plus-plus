@@ -1,4 +1,4 @@
-QT += quick multimedia multimediawidgets dbus xml
+QT += quick multimedia multimediawidgets dbus xml core
 CONFIG += c++17
 DBUS_INTERFACES += Dbus/climate.xml
 # The following define makes your compiler emit warnings if you use
@@ -16,7 +16,9 @@ SOURCES += \
         App/Climate/climatemodel.cpp \
         App/Media/player.cpp \
         App/Media/playlistmodel.cpp \
+        applicationitem.cpp \
         applicationsmodel.cpp \
+        climate.cpp \
         main.cpp \
         xmlreader.cpp
 
@@ -37,7 +39,9 @@ HEADERS += \
     App/Climate/climatemodel.h \
     App/Media/player.h \
     App/Media/playlistmodel.h \
+    applicationitem.h \
     applicationsmodel.h \
+    climate.h \
     xmlreader.h
 
 LIBS += -ltag
