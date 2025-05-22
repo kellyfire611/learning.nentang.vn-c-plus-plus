@@ -1,4 +1,5 @@
 #include "playlistmodel.h"
+#include <QDebug>
 
 PlaylistModel::PlaylistModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -13,8 +14,10 @@ int PlaylistModel::rowCount(const QModelIndex &parent) const
 
 QVariant PlaylistModel::data(const QModelIndex &index, int role) const
 {
-    if (index.row() < 0 || index.row() >= m_data.count())
+    if (index.row() < 0 || index.row() >= m_data.count()) {
+        qDebug() << "Invalid index:" << index.row() << "Row count:" << m_data.count();
         return QVariant();
+    }
 
     const Song &song = m_data[index.row()];
     if (role == TitleRole)
@@ -30,6 +33,7 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const
 
 void PlaylistModel::addSong(Song &song)
 {
+    qDebug() << "Adding song - Title:" << song.title() << "Artist:" << song.singer();
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     m_data << song;
     endInsertRows();

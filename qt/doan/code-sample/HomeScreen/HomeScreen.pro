@@ -49,3 +49,8 @@ LIBS += -ltag
 DISTFILES += \
     Dbus/climate.xml \
     applications.xml
+
+# Sao chép thư mục Musics vào thư mục build
+copy_music.commands = $(COPY_DIR) $$PWD/Musics $$OUT_PWD
+first.depends = $(first) copy_music
+QMAKE_EXTRA_TARGETS += first copy_music

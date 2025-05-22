@@ -6,12 +6,14 @@
 #include "App/Climate/climatemodel.h"
 #include "applicationsmodel.h"
 #include "xmlreader.h"
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
 
     QGuiApplication app(argc, argv);
 
+    qDebug() << "Khoi tao chuong trinh";
     ApplicationsModel appsModel;
     PlaylistModel playlistModel;
     Player player;

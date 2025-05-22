@@ -48,7 +48,7 @@ void XmlReader::PaserXml(ApplicationsModel &model)
             }
 
             if (!title.isEmpty()) { // Chỉ thêm nếu title không rỗng
-                qDebug() << "Adding application:" << title << url << iconPath;
+                qDebug() << "Adding application from XML:" << title << url << iconPath;
                 ApplicationItem item(title, url, iconPath);
                 model.addApplication(item);
             } else {

@@ -12,10 +12,14 @@ MouseArea {
         id: img
         source: icon_default
     }
+
     onPressed: {
         img.source = icon_pressed
+        console.log("ButtonControl pressed:", icon_pressed)
     }
+
     onReleased: {
         img.source = icon_released
+        console.log("ButtonControl released:", icon_released)
     }
 }

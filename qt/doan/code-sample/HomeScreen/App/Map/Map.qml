@@ -20,13 +20,21 @@ Item {
 
     Plugin {
         id: mapPlugin
-        name: "osm" //"osm" // mapboxgl // , "esri", ...
+        name: "osm"
+        PluginParameter {
+            name: "osm.mapping.providersrepository.address"
+            value: "qrc:/custom_providers/"
+        }
+        Component.onCompleted: {
+            console.log("Plugin available:", mapPlugin.availableServiceProviders)
+            console.log("Plugin error:", mapPlugin.errorString)
+        }
     }
     MapQuickItem {
         id: marker
         anchorPoint.x: image.width/4
         anchorPoint.y: image.height
-        coordinate: QtPositioning.coordinate(21.03, 105.78)
+        coordinate: QtPositioning.coordinate(10.032445494864064, 105.7815355124529)
 
         sourceItem: Image {
             id: image
@@ -37,9 +45,23 @@ Item {
         id: map
         anchors.fill: parent
         plugin: mapPlugin
-        center: QtPositioning.coordinate(21.03, 105.78)
-        zoomLevel: 14
+        center: QtPositioning.coordinate(10.032445494864064, 105.7815355124529) // Tọa độ TP.CT
+        zoomLevel: 12
+        activeMapType: supportedMapTypes.find(function(mt) { return mt.name === "thf-cycle-custom"; }) || supportedMapTypes[0]
         copyrightsVisible: false
+        onMapReadyChanged: {
+            // if (map.ready) {
+            //     if (map.supportedMapTypes && map.supportedMapTypes.length > 0) {
+            //         for (var i = 0; i < map.supportedMapTypes.length; i++) {
+            //             console.log("Map type:", map.supportedMapTypes[i].name)
+            //         }
+            //     } else {
+            //         console.log("No supported map types available")
+            //     }
+            // } else {
+            //     console.log("Map not ready:", map.errorString())
+            // }
+        }
         Component.onCompleted: {
             map.addMapItem(marker)
         }

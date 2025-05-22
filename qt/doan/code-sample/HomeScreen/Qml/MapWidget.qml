@@ -18,21 +18,30 @@ MouseArea {
         color: "#111419"
     }
 
+    Plugin {
+        id: mapPlugin
+        name: "osm"
+        PluginParameter {
+            name: "osm.mapping.providersrepository.address"
+            value: "qrc:/custom_providers/"
+        }
+        Component.onCompleted: {
+            console.log("Plugin available:", mapPlugin.availableServiceProviders)
+            console.log("Plugin error:", mapPlugin.errorString)
+        }
+    }
+
     Item {
         id: map
         x: 7 //10
         y: 7 //10
         width: 436 //615
         height: 391 //550
-        Plugin {
-            id: mapPlugin
-            name: "osm" //"mapboxgl", "osm", "esri", ...
-        }
         MapQuickItem {
             id: marker
             anchorPoint.x: image.width/4
             anchorPoint.y: image.height
-            coordinate: QtPositioning.coordinate(21.03, 105.78)
+            coordinate: QtPositioning.coordinate(10.032445494864064, 105.7815355124529)
 
             sourceItem: Image {
                 id: image
@@ -43,10 +52,24 @@ MouseArea {
             id: mapView
             anchors.fill: parent
             plugin: mapPlugin
-            center: QtPositioning.coordinate(21.03, 105.78)
-            zoomLevel: 14
+            center: QtPositioning.coordinate(10.032445494864064, 105.7815355124529) // Tọa độ TP.CT
+            zoomLevel: 12
+            activeMapType: supportedMapTypes.find(function(mt) { return mt.name === "thf-cycle-custom"; }) || supportedMapTypes[0]
             copyrightsVisible: false
             enabled: false
+            onMapReadyChanged: {
+                // if (map.ready) {
+                //     if (map.supportedMapTypes && map.supportedMapTypes.length > 0) {
+                //         for (var i = 0; i < map.supportedMapTypes.length; i++) {
+                //             console.log("Map type:", map.supportedMapTypes[i].name)
+                //         }
+                //     } else {
+                //         console.log("No supported map types available")
+                //     }
+                // } else {
+                //     console.log("Map not ready:", map.errorString)
+                // }
+            }
             Component.onCompleted: {
                 mapView.addMapItem(marker)
             }

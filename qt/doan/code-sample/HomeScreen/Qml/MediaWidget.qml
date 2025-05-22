@@ -1,108 +1,122 @@
 import QtQuick 2.15
-// import QtGraphicalEffects 1.15
 import Qt5Compat.GraphicalEffects 6.0
 
 MouseArea {
     id: root
-    implicitWidth: 450 //635
-    implicitHeight: 405 //570
+    implicitWidth: 450
+    implicitHeight: 405
+
     Rectangle {
-        anchors{
+        anchors {
             fill: parent
-            margins: 7 //10
+            margins: 7
         }
         opacity: 0.7
         color: "#111419"
     }
+
     Image {
         id: bgBlur
-        x: 7 //10
-        y: 7 //10
-        width: 436 //615
-        height: 391 //550
+        x: 7
+        y: 7
+        width: 436
+        height: 391
         source: {
-            if (myModel.rowCount() > 0 && myModel.rowCount() >  player.playlist.currentIndex)
-                return myModel.data(myModel.index(player.playlist.currentIndex,0), 260)
-            else
-                return "qrc:/Img/HomeScreen/cover_art.jpg"
+            if (playlistModel && playlistModel.rowCount() > 0 && player && player.m_currentIndex >= 0 && player.m_currentIndex < playlistModel.rowCount())
+                return playlistModel.data(playlistModel.index(player.m_currentIndex, 0), 260) || "qrc:/Img/HomeScreen/cover_art.jpg"
+            return "qrc:/Img/HomeScreen/cover_art.jpg"
         }
     }
+
     FastBlur {
         anchors.fill: bgBlur
         source: bgBlur
-        radius: 13 //18
+        radius: 13
     }
+
     Image {
         id: idBackgroud
         source: ""
         width: root.width
         height: root.height
     }
+
     Text {
         id: title
         anchors.horizontalCenter: parent.horizontalCenter
-        y: 28 //40
+        y: 28
         text: "USB Music"
         color: "white"
-        font.pixelSize: 24 //34
+        font.pixelSize: 24
     }
+
     Image {
         id: bgInner
-        x: 143 //201
-        y: 85 //119
-        width: 183 //258
-        height: 183 //258
+        x: 143
+        y: 85
+        width: 183
+        height: 183
         source: {
-            if (myModel.rowCount() > 0 && myModel.rowCount() >  player.playlist.currentIndex)
-                return myModel.data(myModel.index(player.playlist.currentIndex,0), 260)
-            else
-                return "qrc:/Img/HomeScreen/cover_art.jpg"
+            if (playlistModel && playlistModel.rowCount() > 0 && player && player.m_currentIndex >= 0 && player.m_currentIndex < playlistModel.rowCount())
+                return playlistModel.data(playlistModel.index(player.m_currentIndex, 0), 260) || "qrc:/Img/HomeScreen/cover_art.jpg"
+            return "qrc:/Img/HomeScreen/cover_art.jpg"
         }
     }
-    Image{
-        x: 143 //201
-        y: 85 //119
-        width: 183 //258
-        height: 183 //258
+
+    Image {
+        x: 143
+        y: 85
+        width: 183
+        height: 183
         source: "qrc:/Img/HomeScreen/widget_media_album_bg.png"
     }
+
     Text {
         id: txtSinger
-        x: 30 //42
-        y: 40+244 //(56+343)
+        x: 30
+        y: 40 + 244
         width: 551
         horizontalAlignment: Text.AlignHCenter
         text: {
-            if (myModel.rowCount() > 0 && myModel.rowCount() >  player.playlist.currentIndex)
-                return myModel.data(myModel.index(player.playlist.currentIndex,0), 258)
+            if (playlistModel && playlistModel.rowCount() > 0 && player && player.m_currentIndex >= 0 && player.m_currentIndex < playlistModel.rowCount()) {
+                var singer = playlistModel.data(playlistModel.index(player.m_currentIndex, 0), 258);
+                return singer && singer !== "" ? singer : "No Artist";
+            }
+            return "No Artist";
         }
         color: "white"
-        font.pixelSize: 21 //30
+        font.pixelSize: 21
     }
+
     Text {
         id: txtTitle
-        x: 30 //42
-        y: 40+244+39 //(56+343+55)
-        width: 391 //551
+        x: 30
+        y: 40 + 244 + 39
+        width: 391
         horizontalAlignment: Text.AlignHCenter
         text: {
-            if (myModel.rowCount() > 0 && myModel.rowCount() >  player.playlist.currentIndex)
-                return myModel.data(myModel.index(player.playlist.currentIndex,0), 257)
+            if (playlistModel && playlistModel.rowCount() > 0 && player && player.m_currentIndex >= 0 && player.m_currentIndex < playlistModel.rowCount()) {
+                var title = playlistModel.data(playlistModel.index(player.m_currentIndex, 0), 257);
+                return title && title !== "" ? title : "No Title";
+            }
+            return "No Title";
         }
         color: "white"
-        font.pixelSize: 34 // 48
+        font.pixelSize: 34
     }
-    Image{
+
+    Image {
         id: imgDuration
-        x: 44 //62
-        y: 40+244+39+44 //(56+343+55+62)
-        width: 363 //511
+        x: 44
+        y: 40 + 244 + 39 + 44
+        width: 363
         source: "qrc:/Img/HomeScreen/widget_media_pg_n.png"
     }
-    Image{
+
+    Image {
         id: imgPosition
-        x: 44 // 62
-        y: 40+244+39+44 // (56+343+55+62)
+        x: 44
+        y: 40 + 244 + 39 + 44
         width: 0
         source: "qrc:/Img/HomeScreen/widget_media_pg_s.png"
     }
@@ -130,37 +144,51 @@ MouseArea {
             }
         }
     ]
+
     onPressed: root.state = "Pressed"
-    onReleased:{
+    onReleased: {
         root.focus = true
         root.state = "Focus"
     }
+
     onFocusChanged: {
-        if (root.focus == true )
+        if (root.focus)
             root.state = "Focus"
         else
             root.state = "Normal"
     }
 
-    Connections{
-        target: player.playlist
-        onCurrentIndexChanged:{
-            if (myModel.rowCount() > 0 && myModel.rowCount() >  player.playlist.currentIndex) {
-                bgBlur.source = myModel.data(myModel.index(player.playlist.currentIndex,0), 260)
-                bgInner.source = myModel.data(myModel.index(player.playlist.currentIndex,0), 260)
-                txtSinger.text = myModel.data(myModel.index(player.playlist.currentIndex,0), 258)
-                txtTitle.text = myModel.data(myModel.index(player.playlist.currentIndex,0), 257)
+    Connections {
+        target: player
+        function onM_currentIndexChanged() {
+            if (player && playlistModel && playlistModel.rowCount() > 0 && player.m_currentIndex >= 0 && player.m_currentIndex < playlistModel.rowCount()) {
+                bgBlur.source = playlistModel.data(playlistModel.index(player.m_currentIndex, 0), 260) || "qrc:/Img/HomeScreen/cover_art.jpg"
+                bgInner.source = playlistModel.data(playlistModel.index(player.m_currentIndex, 0), 260) || "qrc:/Img/HomeScreen/cover_art.jpg"
+                txtSinger.text = playlistModel.data(playlistModel.index(player.m_currentIndex, 0), 258) || "No Artist"
+                txtTitle.text = playlistModel.data(playlistModel.index(player.m_currentIndex, 0), 257) || "No Title"
+            } else {
+                console.log("Invalid state: player=", player, "rowCount=", playlistModel ? playlistModel.rowCount() : "undefined", "m_currentIndex=", player ? player.m_currentIndex : "undefined")
             }
         }
     }
 
-    Connections{
+    Connections {
         target: player
-        onDurationChanged:{
-            imgDuration.width = 363 //511
+        function onDurationChanged() {
+            imgDuration.width = 363
         }
-        onPositionChanged: {
-            imgPosition.width = (player.position / player.duration)*(511);
+        function onPositionChanged() {
+            imgPosition.width = player.duration > 0 ? (player.position / player.duration) * 363 : 0
+        }
+    }
+
+    Component.onCompleted: {
+        console.log("MediaWidget loaded")
+        console.log("Playlist row count:", playlistModel ? playlistModel.rowCount() : "undefined")
+        console.log("Current index:", player ? player.m_currentIndex : "undefined")
+        if (playlistModel && playlistModel.rowCount() > 0) {
+            console.log("First song - Title:", playlistModel.data(playlistModel.index(0, 0), 257))
+            console.log("First song - Artist:", playlistModel.data(playlistModel.index(0, 0), 258))
         }
     }
 }

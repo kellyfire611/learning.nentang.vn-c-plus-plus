@@ -26,10 +26,13 @@ class Player : public QObject
     Q_PROPERTY(int m_currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY m_currentIndexChanged)
     Q_PROPERTY(bool shuffle READ shuffle WRITE setShuffle NOTIFY shuffleChanged)
     Q_PROPERTY(bool repeat READ repeat WRITE setRepeat NOTIFY repeatChanged)
+    Q_PROPERTY(qint64 position READ position NOTIFY positionChanged)
+    Q_PROPERTY(qint64 duration READ duration NOTIFY durationChanged)
+
 public:
     explicit Player(QObject *parent = nullptr);
 
-    QMediaPlayer* mediaPlayer() const { return m_player; } // Getter cho QMediaPlayer
+    QMediaPlayer* mediaPlayer() const { return m_player; }
 
     int currentIndex() const { return m_currentIndex; }
     void setCurrentIndex(int index);
@@ -39,6 +42,9 @@ public:
 
     bool repeat() const { return m_repeat; }
     void setRepeat(bool enabled);
+
+    qint64 position() const { return m_player->position(); }
+    qint64 duration() const { return m_player->duration(); }
 
     void addToPlaylist(const QList<QUrl> &urls);
     Q_INVOKABLE void playNext();
@@ -52,8 +58,8 @@ public:
     QString getAlbumArt(QUrl url);
 
     QMediaPlayer *m_player = nullptr;
-    QList<QUrl> m_playlist; // Replace QMediaPlaylist with QList<QUrl>
-    int m_currentIndex = -1; // Track current media index
+    QList<QUrl> m_playlist;
+    int m_currentIndex = -1;
     bool m_shuffle = false;
     bool m_repeat = false;
     PlaylistModel *m_playlistModel = nullptr;
