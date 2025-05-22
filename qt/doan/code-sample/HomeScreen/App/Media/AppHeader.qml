@@ -10,7 +10,7 @@ Item {
         SwitchButton {
             id: playlist_button
             anchors.left: parent.left
-            anchors.leftMargin: 20
+            anchors.leftMargin: 14 //20
             anchors.verticalCenter: parent.verticalCenter
             icon_off: "qrc:/App/Media/Image/drawer.png"
             icon_on: "qrc:/App/Media/Image/back.png"
@@ -20,19 +20,19 @@ Item {
         }
         Text {
             anchors.left: playlist_button.right
-            anchors.leftMargin: 5
+            anchors.leftMargin: 4 //5
             anchors.verticalCenter: parent.verticalCenter
             verticalAlignment: Text.AlignVCenter
             text: qsTr("Playlist")
             color: "white"
-            font.pixelSize: 32
+            font.pixelSize: 23 // 32
         }
         Text {
             id: headerTitleText
             text: qsTr("Media Player")
             anchors.centerIn: parent
             color: "white"
-            font.pixelSize: 46
+            font.pixelSize: 33 // 46
         }
     }
 }

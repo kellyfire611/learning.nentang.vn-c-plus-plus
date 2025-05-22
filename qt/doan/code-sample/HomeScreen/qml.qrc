@@ -186,5 +186,6 @@
         <file>App/Phone/Phone.qml</file>
         <file>App/Radio/Radio.qml</file>
         <file>App/Settings/Settings.qml</file>
+        <file>App/Video/Video.qml</file>
     </qresource>
 </RCC>

@@ -17,7 +17,7 @@ Drawer {
         anchors.fill: parent
         model: playlistModel //myModel
         clip: true
-        spacing: 2
+        spacing: 1 //2
         currentIndex: player.m_currentIndex //player.playlist.currentIndex
 
         delegate: MouseArea {
@@ -26,18 +26,18 @@ Drawer {
             implicitHeight: playlistItem.height
             Image {
                 id: playlistItem
-                width: 675
-                height: 193
+                width: 479 // 675
+                height: 137 // 193
                 source: "qrc:/App/Media/Image/playlist.png"
                 opacity: 0.5
             }
             Text {
                 text: title
                 anchors.fill: parent
-                anchors.leftMargin: 70
+                anchors.leftMargin: 50 //70
                 verticalAlignment: Text.AlignVCenter
                 color: "white"
-                font.pixelSize: 32
+                font.pixelSize: 23 // 32
             }
             onClicked: {
                 //player.playlist.currentIndex = index
@@ -57,7 +57,7 @@ Drawer {
             source: "qrc:/App/Media/Image/playlist_item.png"
             Image {
                 anchors.left: parent.left
-                anchors.leftMargin: 15
+                anchors.leftMargin: 11 //15
                 anchors.verticalCenter: parent.verticalCenter
                 source: "qrc:/App/Media/Image/playing.png"
             }

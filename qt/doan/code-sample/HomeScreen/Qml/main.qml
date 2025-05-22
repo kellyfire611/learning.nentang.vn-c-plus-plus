@@ -5,12 +5,12 @@ import QtQuick.Window 2.15
 ApplicationWindow {
     id: window
     visible: true
-    width: 1920
-    height: 1200
+    width: 1360 //1920
+    height: 768 //1200
     Image {
         id: background
-        width: 1920
-        height: 1200
+        width: 1360 //1920
+        height: 768 //1200
         source: "qrc:/Img/bg_full.png"
     }
 
@@ -22,7 +22,7 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-        width: 1920
+        width: 1360 //1920
         anchors.top: statusBar.bottom
         initialItem: HomeWidget{}
         onCurrentItemChanged: {
@@ -31,7 +31,7 @@ ApplicationWindow {
         pushExit: Transition {
             XAnimator {
                 from: 0
-                to: -1920
+                to: 1360 //-1920
                 duration: 200
                 easing.type: Easing.OutCubic
             }

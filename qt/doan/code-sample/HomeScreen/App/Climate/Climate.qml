@@ -3,8 +3,8 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
 Item {
-    width: 1920
-    height: 1200 - 104
+    width: 1360 // 1920
+    height: 768-74 // 1200 - 104
 
     Rectangle {
         anchors.fill: parent
@@ -12,27 +12,27 @@ Item {
 
         ColumnLayout {
             anchors.fill: parent
-            spacing: 10
+            spacing: 7 //10
 
             Text {
                 text: "Climate Control"
                 color: "white"
-                font.pixelSize: 34
+                font.pixelSize: 24 //34
                 Layout.alignment: Qt.AlignHCenter
             }
 
             RowLayout {
                 Layout.fillWidth: true
-                spacing: 20
+                spacing: 14 //20
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 // Driver Controls
                 ColumnLayout {
-                    spacing: 10
+                    spacing: 7 //10
                     Text {
                         text: "DRIVER"
                         color: "white"
-                        font.pixelSize: 24
+                        font.pixelSize: 17 // 24
                         Layout.alignment: Qt.AlignHCenter
                     }
                     Text {
@@ -40,11 +40,11 @@ Item {
                               climateModel.driver_temp == 31.5 ? "HIGH" :
                               climateModel.driver_temp + "°C"
                         color: "white"
-                        font.pixelSize: 30
+                        font.pixelSize: 21 //30
                         Layout.alignment: Qt.AlignHCenter
                     }
                     RowLayout {
-                        spacing: 10
+                        spacing: 7 //10
                         Button {
                             text: "-"
                             onClicked: {
@@ -67,18 +67,18 @@ Item {
                     Text {
                         text: "Wind Mode: " + climateModel.driver_wind_mode
                         color: "white"
-                        font.pixelSize: 20
+                        font.pixelSize: 14 //20
                         Layout.alignment: Qt.AlignHCenter
                     }
                 }
 
                 // Passenger Controls
                 ColumnLayout {
-                    spacing: 10
+                    spacing: 7 // 10
                     Text {
                         text: "PASSENGER"
                         color: "white"
-                        font.pixelSize: 24
+                        font.pixelSize: 17 //24
                         Layout.alignment: Qt.AlignHCenter
                     }
                     Text {
@@ -86,11 +86,11 @@ Item {
                               climateModel.passenger_temp == 31.5 ? "HIGH" :
                               climateModel.passenger_temp + "°C"
                         color: "white"
-                        font.pixelSize: 30
+                        font.pixelSize: 21 //30
                         Layout.alignment: Qt.AlignHCenter
                     }
                     RowLayout {
-                        spacing: 10
+                        spacing: 7 // 10
                         Button {
                             text: "-"
                             onClicked: {
@@ -113,7 +113,7 @@ Item {
                     Text {
                         text: "Wind Mode: " + climateModel.passenger_wind_mode
                         color: "white"
-                        font.pixelSize: 20
+                        font.pixelSize: 14 //20
                         Layout.alignment: Qt.AlignHCenter
                     }
                 }
@@ -121,11 +121,11 @@ Item {
 
             RowLayout {
                 Layout.alignment: Qt.AlignHCenter
-                spacing: 20
+                spacing: 14 //20
                 Text {
                     text: "Fan Level: " + climateModel.fan_level
                     color: "white"
-                    font.pixelSize: 24
+                    font.pixelSize: 17 //24
                 }
                 Button {
                     text: "-"
@@ -145,7 +145,7 @@ Item {
 
             RowLayout {
                 Layout.alignment: Qt.AlignHCenter
-                spacing: 20
+                spacing: 14 //20
                 Switch {
                     text: "AUTO"
                     checked: climateModel.auto_mode

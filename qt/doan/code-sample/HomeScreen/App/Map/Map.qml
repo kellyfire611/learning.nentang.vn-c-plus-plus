@@ -4,14 +4,14 @@ import QtPositioning 6.9
 
 Item {
     id: root
-    width: 1920
-    height: 1200 - 104 //70
+    width: 1360 //1920
+    height: 768-74 //1200 - 104 //70
 
     Item {
         id: startAnimation
         XAnimator{
             target: root
-            from: 1920
+            from: 1360 //1920
             to: 0
             duration: 200
             running: true

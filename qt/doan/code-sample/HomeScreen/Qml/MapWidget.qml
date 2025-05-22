@@ -6,13 +6,13 @@ MouseArea {
     id: root
     preventStealing: true
     propagateComposedEvents: true
-    implicitWidth: 635
-    implicitHeight: 570
+    implicitWidth: 450 //635
+    implicitHeight: 405 //570
 
     Rectangle {
         anchors{
             fill: parent
-            margins: 10
+            margins: 7 //10
         }
         opacity: 0.7
         color: "#111419"
@@ -20,10 +20,10 @@ MouseArea {
 
     Item {
         id: map
-        x: 10
-        y: 10
-        width: 615
-        height: 550
+        x: 7 //10
+        y: 7 //10
+        width: 436 //615
+        height: 391 //550
         Plugin {
             id: mapPlugin
             name: "osm" //"mapboxgl", "osm", "esri", ...

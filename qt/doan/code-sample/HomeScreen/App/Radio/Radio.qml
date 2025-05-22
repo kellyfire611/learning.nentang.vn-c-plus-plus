@@ -2,8 +2,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 
 Item {
-    width: 1920
-    height: 1200 - 104
+    width: 1360
+    height: 768 - 74
 
     Rectangle {
         anchors.fill: parent
